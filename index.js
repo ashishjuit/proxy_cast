@@ -9,7 +9,6 @@ var $http = require('axios');
 var port = process.env.PORT || 3000;
 var apiKey = require('./config').apiKey;
 var baseUrl = 'https://api.forecast.io/forecast/';
-console.log(apiKey);
 
 //plugins middleware
 server.use(bodyParser.json());
@@ -25,11 +24,13 @@ server.get('/forecast/hourly/:lat,:lon', function(req, res){
       longitude: response.data.longitude,
       hourly: response.data.hourly,
     }
-    res.send(resObj);
+    res.send(200).json(resObj);
   })
   .catch(function(err){
     console.log(err);
-    res.send("baddddd!!!!")
+    res.status(500).send({
+      msg: error
+    })
   });
 });
 
